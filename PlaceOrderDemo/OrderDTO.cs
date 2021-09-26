@@ -23,8 +23,13 @@ namespace PlaceOrderDemo
 
     public class DiscountDTO
     {
-        public int DiscountType { get; set; } //折扣類型
+        public DiscountEnum DiscountType { get; set; } //折扣類型
         public int Bonus { get; set; } //紅利點數
         public float Coupon { get; set; } //電子優惠
+    }
+
+    public enum DiscountEnum
+    {
+        None, Bonus, Coupon
     }
 }

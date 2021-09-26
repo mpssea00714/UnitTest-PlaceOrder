@@ -122,7 +122,7 @@ namespace PlaceOrderTest
 
             DiscountDTO discount = new DiscountDTO
             {
-                DiscountType = 1,
+                DiscountType = DiscountEnum.Bonus,
                 Bonus = bonus
             };
 
@@ -135,7 +135,7 @@ namespace PlaceOrderTest
 
             DiscountDTO discount = new DiscountDTO
             {
-                DiscountType = 2,
+                DiscountType = DiscountEnum.Coupon,
                 Coupon = coupon
             };
 
