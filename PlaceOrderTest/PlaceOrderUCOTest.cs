@@ -83,7 +83,7 @@ namespace PlaceOrderTest
             Assert.AreEqual(actual, expected);
         }
 
-        public OrderDTO PrepareBaseOrderData()
+        private OrderDTO PrepareBaseOrderData()
         {
             OrderDTO orderDTO = new OrderDTO();
             OrderItemDTO item1 = new OrderItemDTO

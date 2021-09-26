@@ -9,14 +9,18 @@ namespace PlaceOrderDemo
         public OrderDTO ProcOrder(OrderDTO orderInfo)
         {
             int totalAmount = 0;
-            foreach (OrderItemDTO itemInfo in orderInfo.Items)
-            {
-                int subTotal;
+            totalAmount = CalcBaseOrderAmount(orderInfo, totalAmount);
+            totalAmount = CalcOrderAmountByDiscount(orderInfo, totalAmount);
 
-                subTotal = itemInfo.Quanity * itemInfo.UnitPrice;
-                totalAmount += subTotal;
-            }
+            //折扣後的訂購總金額
+            orderInfo.TotalPrice = totalAmount;
 
+            return orderInfo;
+        }
+
+        private static int CalcOrderAmountByDiscount(OrderDTO orderInfo, int totalAmount)
+        {
+            //依據折扣類型,計算折扣費用
             switch (orderInfo.Discoount.DiscountType)
             {
                 case 0: //None
@@ -29,15 +33,15 @@ namespace PlaceOrderDemo
                         //3.5000元(含)以下,折抵最大點數1000
 
                     int bonus = orderInfo.Discoount.Bonus;
-                    if(totalAmount <= 1000) 
+                    if (totalAmount <= 1000)
                     {
                         totalAmount -= Math.Min(bonus, 50);
                     }
-                    else if(totalAmount <= 5000)
+                    else if (totalAmount <= 5000)
                     {
                         totalAmount -= Math.Min(bonus, 300);
                     }
-                    else 
+                    else
                     {
                         totalAmount -= Math.Min(bonus, 1000);
                     }
@@ -51,10 +55,21 @@ namespace PlaceOrderDemo
 
             }
 
-            //折扣後的訂購總金額
-            orderInfo.TotalPrice = totalAmount;
+            return totalAmount;
+        }
 
-            return orderInfo;
-        } 
+        private static int CalcBaseOrderAmount(OrderDTO orderInfo, int totalAmount)
+        {
+            //for 每一筆訂購商品項目,計算分項金額
+            foreach (OrderItemDTO itemInfo in orderInfo.Items)
+            {
+                int subTotal;
+
+                subTotal = itemInfo.Quanity * itemInfo.UnitPrice;
+                totalAmount += subTotal;
+            }
+
+            return totalAmount;
+        }
     }
 }
